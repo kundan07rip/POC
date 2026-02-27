@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /* ─── TEXT ANIMATION HELPERS ─── */
 const charVariants = {
@@ -207,12 +207,6 @@ function ScrollProgress() {
 /* ═══════════════════════════════════════ */
 
 export default function Page() {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 200);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="w-full min-h-screen overflow-x-hidden relative" style={{ background: '#1A0F08', cursor: 'none' }}>
@@ -710,7 +704,7 @@ export default function Page() {
                 </ScrollRevealText>
                 <ScrollRevealText delay={0.15}>
                   <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 14, fontWeight: 600, fontStyle: 'italic', color: '#E6DEC3', marginBottom: 14, lineHeight: 1.6 }}>
-                    We'll come to you when you<br />can't come to us.
+                    We&apos;ll come to you when you<br />can&apos;t come to us.
                   </p>
                 </ScrollRevealText>
                 <ScrollRevealText delay={0.3}>
@@ -804,7 +798,7 @@ export default function Page() {
               </ScrollRevealText>
               <ScrollRevealText delay={0.2}>
                 <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 14, fontWeight: 500, color: '#3D2616', lineHeight: 2, maxWidth: 400 }}>
-                  We realise that it's not always possible to drop in for a peaceful coffee break, so we've introduced a home delivery service offering our entire menu directly to you in Bhilwara.
+                  We realise that it&apos;s not always possible to drop in for a peaceful coffee break, so we&apos;ve introduced a home delivery service offering our entire menu directly to you in Bhilwara.
                 </p>
               </ScrollRevealText>
             </motion.div>
