@@ -207,6 +207,14 @@ function ScrollProgress() {
 /* ═══════════════════════════════════════ */
 
 export default function Page() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Menu', href: '/menu' },
+    { label: 'Delivery', href: '#delivery' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
   return (
     <div className="w-full min-h-screen overflow-x-hidden relative" style={{ background: '#1A0F08', cursor: 'none' }}>
@@ -305,14 +313,9 @@ export default function Page() {
               </Magnetic>
             </Link>
 
-            {/* Nav Links with magnetic effect */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-              {[
-                { label: 'Home', href: '/' },
-                { label: 'Menu', href: '/menu' },
-                { label: 'Delivery', href: '#delivery' },
-                { label: 'Contact', href: '#contact' },
-              ].map((item, i) => (
+            {/* Desktop Nav Links — hidden on mobile */}
+            <div className="hidden md:flex" style={{ alignItems: 'center', gap: 32 }}>
+              {navItems.map((item, i) => (
                 <Magnetic key={i} strength={0.25}>
                   <Link
                     href={item.href}
@@ -333,7 +336,6 @@ export default function Page() {
                     onMouseLeave={e => (e.currentTarget.style.color = '#D4B592')}
                   >
                     {item.label}
-                    {/* Underline animation */}
                     <motion.span
                       style={{
                         position: 'absolute',
@@ -352,8 +354,107 @@ export default function Page() {
                 </Magnetic>
               ))}
             </div>
+
+            {/* Hamburger Button — visible on mobile only */}
+            <button
+              className="flex md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'none',
+                padding: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 5,
+                width: 40,
+                height: 40,
+                position: 'relative',
+              }}
+            >
+              <motion.span
+                animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ width: 24, height: 2, background: '#BE9B5A', borderRadius: 2, display: 'block' }}
+              />
+              <motion.span
+                animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                transition={{ duration: 0.2 }}
+                style={{ width: 24, height: 2, background: '#D4B592', borderRadius: 2, display: 'block' }}
+              />
+              <motion.span
+                animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ width: 24, height: 2, background: '#BE9B5A', borderRadius: 2, display: 'block' }}
+              />
+            </button>
           </div>
         </motion.nav>
+
+        {/* ─── MOBILE MENU OVERLAY ─── */}
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: 'fixed',
+              top: 80,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 99,
+              background: 'rgba(26, 15, 8, 0.97)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 40,
+            }}
+            className="md:hidden"
+          >
+            {navItems.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    fontFamily: 'Cinzel, serif',
+                    fontSize: 28,
+                    fontWeight: 600,
+                    color: '#E6DEC3',
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#BE9B5A')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#E6DEC3')}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
+            ))}
+            {/* Decorative line */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              style={{ width: 80, height: 1, background: 'linear-gradient(90deg, transparent, #BE9B5A, transparent)', marginTop: 8 }}
+            />
+          </motion.div>
+        )}
 
         {/* ─── HERO ─── */}
         <section className="max-w-[960px] mx-auto px-4 pt-28 mb-24 flex flex-col md:flex-row items-center gap-12 md:gap-16" style={{ minHeight: '100vh' }}>
